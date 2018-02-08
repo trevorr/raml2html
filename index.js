@@ -38,7 +38,10 @@ function render(source, config, options) {
     };
   }
 
-  return raml2obj.parse(source, options.validate).then(ramlObj => {
+  if (config.updateOptions) {
+    options = config.updateOptions(options);
+  }
+  return raml2obj.parse(source, options).then(ramlObj => {
     if (config.processRamlObj) {
       return config.processRamlObj(ramlObj, config, options).then(html => {
         if (config.postProcessHtml) {
